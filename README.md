@@ -3,13 +3,15 @@
 This project is building a ChatGPT App that turns product photos into an
 interactive gallery of AI-generated mockups. A user uploads one or more product
 images, chooses a configured prompt preset or supplies an additional prompt,
-and receives ten distinct product mockups inside the ChatGPT conversation. The
-generated images are returned as structured tool output and rendered in the
-interactive gallery developed in this repository.
+and receives the requested number of distinct product mockups inside the
+ChatGPT conversation. When the user does not specify a quantity, the app
+defaults to ten mockups. The generated images are returned as structured tool
+output and rendered in the interactive gallery developed in this repository.
 
 ```text
 Input:  one or more product images + a prompt or prompt preset
-Output: an interactive ChatGPT gallery containing ten generated mockups
+Output: an interactive gallery containing the requested number of mockups
+        (ten mockups by default when no quantity is specified)
 ```
 
 The current milestone provides the reusable React gallery, the ChatGPT/MCP Apps
