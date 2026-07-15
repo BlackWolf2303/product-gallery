@@ -1,6 +1,20 @@
-# ChatGPT Product Gallery Component
+# ChatGPT Product Mockup Gallery
 
-An interactive React product gallery organized as a portable ChatGPT App component, with a Next/vinext page retained as its local preview host.
+This project is building a ChatGPT App that turns product photos into an
+interactive gallery of AI-generated mockups. A user uploads one or more product
+images, chooses a configured prompt preset or supplies an additional prompt,
+and receives ten distinct product mockups inside the ChatGPT conversation. The
+generated images are returned as structured tool output and rendered in the
+interactive gallery developed in this repository.
+
+```text
+Input:  one or more product images + a prompt or prompt preset
+Output: an interactive ChatGPT gallery containing ten generated mockups
+```
+
+The current milestone provides the reusable React gallery, the ChatGPT/MCP Apps
+integration, and the production Cloudflare Worker endpoint. Image upload,
+generation, and persistent storage are the next stages of the product pipeline.
 
 ## Project structure
 
