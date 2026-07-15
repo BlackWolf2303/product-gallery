@@ -51,11 +51,28 @@ test("keeps the ChatGPT component portable and the page preview-only", async () 
 });
 
 test("builds a self-contained ChatGPT widget bundle", async () => {
-  const [js, css] = await Promise.all([
+  const [js, css, workerJs, workerCss] = await Promise.all([
     stat(new URL("../chatgpt-app/web/dist/widget.js", import.meta.url)),
     stat(new URL("../chatgpt-app/web/dist/widget.css", import.meta.url)),
+    stat(new URL("../chatgpt-app/web/dist/widget.js.txt", import.meta.url)),
+    stat(new URL("../chatgpt-app/web/dist/widget.css.txt", import.meta.url)),
   ]);
 
   assert.ok(js.size > 0);
   assert.ok(css.size > 0);
+  assert.equal(workerJs.size, js.size);
+  assert.equal(workerCss.size, css.size);
+});
+
+test("configures a stateless Cloudflare Worker MCP endpoint", async () => {
+  const [worker, config] = await Promise.all([
+    readFile(new URL("../chatgpt-app/worker/index.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../wrangler.mcp.jsonc", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(worker, /WebStandardStreamableHTTPServerTransport/);
+  assert.match(worker, /url\.pathname === MCP_PATH/);
+  assert.match(worker, /env\.ASSETS\.fetch/);
+  assert.match(config, /"main": "chatgpt-app\/worker\/index\.mjs"/);
+  assert.match(config, /"run_worker_first": true/);
 });

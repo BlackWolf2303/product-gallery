@@ -4,6 +4,8 @@ This directory contains the ChatGPT-facing runtime:
 
 ```text
 server/index.mjs        Streamable HTTP MCP server on /mcp
+server/gallery.mjs      Shared tool, resource, schema, and widget contract
+worker/index.mjs        Cloudflare Workers production runtime
 web/entry.tsx           React widget entry
 web/widget.css          iframe-level base styles
 web/dist/               generated inline widget bundle
@@ -28,27 +30,71 @@ npm run app:tunnel
 
 Copy the generated `https://<name>.trycloudflare.com/mcp` URL into ChatGPT Developer Mode. Quick Tunnel URLs are temporary and stop working when either terminal process exits.
 
-## Deploy a stable HTTPS endpoint on Render
+## Test the Cloudflare Worker locally
 
-The repository includes a root-level `render.yaml` Blueprint. It builds the
-widget, starts the MCP HTTP server, and checks `/healthz` before routing traffic.
+```bash
+npm run app:worker:dev
+```
 
-1. Push this project to a GitHub or GitLab repository.
-2. In Render, choose **New → Blueprint** and connect that repository.
-3. Confirm the `product-gallery-mcp` service and apply the Blueprint.
-4. Wait for the deploy to become **Live**.
-5. Open `https://<service-name>.onrender.com/healthz` and confirm it returns
-   `{"status":"ok"}`.
-6. Use `https://<service-name>.onrender.com/mcp` as the ChatGPT app endpoint.
+Wrangler builds the widget before starting the Worker. Verify these URLs using
+the local address printed by Wrangler:
 
-The Blueprint uses Render's `starter` instance so the MCP endpoint remains
-awake. To test without cost, change `plan: starter` to `plan: free`; free
-services can sleep after inactivity, so they are not recommended for a reliable
-ChatGPT integration.
+```text
+http://localhost:8787/healthz
+http://localhost:8787/mcp
+```
 
-After each push, Render automatically rebuilds and redeploys the app. Refresh
-the developer-mode app in ChatGPT after a successful deployment so ChatGPT
-reloads the latest tool and widget metadata.
+The `/mcp` URL shows a status page in a normal browser and handles Streamable
+HTTP when called by ChatGPT or another MCP client.
+
+## Deploy through Cloudflare Workers Builds
+
+The root `wrangler.mcp.jsonc` is the source of truth for the Worker name, runtime,
+static assets, build command, and observability. The production Worker uses the
+stateless Web Standard Streamable HTTP transport, so it does not require a
+Durable Object.
+
+To connect the existing GitHub repository:
+
+1. Open **Cloudflare Dashboard → Workers & Pages**.
+2. Create a Worker by importing the `BlackWolf2303/product-gallery` repository.
+3. Select `main` as the production branch.
+4. Leave the root directory as `/`.
+5. Leave the build command empty; `wrangler.mcp.jsonc` runs `npm run app:build`.
+6. Use `npx wrangler deploy --config wrangler.mcp.jsonc` as the deploy command. The
+   explicit config prevents the vinext preview build from redirecting Wrangler
+   to its separate generated Worker.
+7. Save and deploy.
+
+After the first successful build, Cloudflare provides a stable URL similar to:
+
+```text
+https://product-gallery-mcp.<account>.workers.dev
+```
+
+Verify the deployment:
+
+1. Open `https://product-gallery-mcp.<account>.workers.dev/healthz` and confirm
+   it returns `{"status":"ok"}`.
+2. Open `https://product-gallery-mcp.<account>.workers.dev/mcp` and confirm the
+   MCP status page appears.
+3. Use `https://product-gallery-mcp.<account>.workers.dev/mcp` as the ChatGPT app
+   endpoint.
+
+Every push to `main` triggers a new Workers Build. Branches can produce preview
+versions without promoting them to production.
+
+## Deploy from a terminal
+
+If Wrangler is already authenticated with your Cloudflare account:
+
+```bash
+npm run app:worker:check
+npm run app:worker:deploy
+```
+
+Refresh the developer-mode app in ChatGPT after a successful deployment so
+ChatGPT reloads the latest tool and widget metadata.
 
 ## Add to ChatGPT
 

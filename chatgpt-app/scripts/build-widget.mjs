@@ -1,4 +1,4 @@
-import { mkdir } from "node:fs/promises";
+import { copyFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 
@@ -17,3 +17,14 @@ await build({
   legalComments: "none",
   logLevel: "info",
 });
+
+await Promise.all([
+  copyFile(
+    new URL("../web/dist/widget.js", import.meta.url),
+    new URL("../web/dist/widget.js.txt", import.meta.url),
+  ),
+  copyFile(
+    new URL("../web/dist/widget.css", import.meta.url),
+    new URL("../web/dist/widget.css.txt", import.meta.url),
+  ),
+]);

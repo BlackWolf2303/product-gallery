@@ -6,7 +6,8 @@ An interactive React product gallery organized as a portable ChatGPT App compone
 
 ```text
 app/                              # Local preview host only
-chatgpt-app/                      # MCP server + iframe widget bundle
+chatgpt-app/                      # MCP runtimes + iframe widget bundle
+  worker/                         # Cloudflare Workers production entry
 components/product-gallery/       # Portable ChatGPT App UI package
   ChatGPTProductGallery.tsx       # ChatGPT/MCP Apps-aware entry
   ProductGallery.tsx              # Host-agnostic presentational component
@@ -42,11 +43,20 @@ Use the generated HTTPS URL with `/mcp` when creating the developer-mode app in 
 
 ## Stable deployment
 
-The included `render.yaml` deploys the MCP server as an always-on Render web
-service. Push the project to GitHub or GitLab, create a Render Blueprint from
-the repository, then use the generated
-`https://<service-name>.onrender.com/mcp` endpoint in ChatGPT. See
-[chatgpt-app/README.md](chatgpt-app/README.md#deploy-a-stable-https-endpoint-on-render).
+The production MCP runtime is configured as a Cloudflare Worker in
+`wrangler.mcp.jsonc`. It deploys the stateless MCP endpoint and the gallery image
+to the same `*.workers.dev` origin.
+
+Connect this repository to Cloudflare Workers Builds for automatic deploys from
+`main`, or deploy from an authenticated terminal:
+
+```bash
+npm run app:worker:deploy
+```
+
+Use the generated `https://product-gallery-mcp.<account>.workers.dev/mcp`
+endpoint in ChatGPT. See [chatgpt-app/README.md](chatgpt-app/README.md) for the
+complete setup and verification steps.
 
 ## Component usage
 
