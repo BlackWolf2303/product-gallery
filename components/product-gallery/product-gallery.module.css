@@ -1,0 +1,319 @@
+.galleryShell {
+  min-height: 100svh;
+  padding: clamp(18px, 3vw, 48px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 5%, rgba(184, 161, 196, 0.13), transparent 28%),
+    #121113;
+}
+
+.gallery {
+  position: relative;
+  width: min(100%, 1120px);
+  height: auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 118px;
+  gap: clamp(18px, 2.2vw, 36px);
+}
+
+.galleryHeading {
+  position: absolute;
+  z-index: 3;
+  top: clamp(28px, 4vw, 62px);
+  left: clamp(28px, 4vw, 64px);
+  color: #272129;
+  pointer-events: none;
+}
+
+.eyebrow,
+.material {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.galleryHeading h1 {
+  margin: 5px 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4vw, 66px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.material {
+  letter-spacing: 0.08em;
+  color: #665c68;
+}
+
+.heroFrame {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: clamp(14px, 2.25vw, 35px);
+  background: #ded3c7;
+}
+
+.productImage {
+  background-repeat: no-repeat;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.002);
+}
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 16, 20, 0.08), transparent 28%, transparent 67%, rgba(20, 16, 20, 0.28));
+  pointer-events: none;
+}
+
+.imageMeta {
+  position: absolute;
+  left: clamp(28px, 4vw, 64px);
+  bottom: clamp(36px, 5vw, 70px);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.imageMetaRule {
+  width: 46px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.heroActions {
+  position: absolute;
+  right: clamp(24px, 3.6vw, 58px);
+  bottom: clamp(24px, 3.5vw, 52px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pillButton,
+.roundButton {
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.pillButton:hover,
+.roundButton:hover {
+  transform: translateY(-2px);
+}
+
+.pillButton:focus-visible,
+.roundButton:focus-visible,
+.thumbnail:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.pillButton {
+  min-height: 58px;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border-radius: 999px;
+  font-size: 15px;
+}
+
+.pillButtonLight,
+.roundButton {
+  background: rgba(67, 55, 68, 0.46);
+}
+
+.roundButton {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.thumbnailRail {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 118px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.thumbnailRailTop {
+  height: 35px;
+  flex: 0 0 35px;
+  display: flex;
+  justify-content: space-between;
+  color: #8b878d;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.thumbnailScroll {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 7px 20px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #5e5960 transparent;
+  scrollbar-gutter: stable;
+}
+
+.thumbnailScroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.thumbnailScroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #5e5960;
+}
+
+.thumbnail {
+  position: relative;
+  flex: 0 0 104px;
+  min-height: 104px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: #2a272b;
+  cursor: pointer;
+  opacity: 0.58;
+  transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.thumbnail:hover {
+  opacity: 0.86;
+  transform: translateX(-2px);
+}
+
+.thumbnailActive {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.thumbnailImage {
+  position: absolute;
+  inset: 0;
+}
+
+.thumbnailNumber {
+  position: absolute;
+  right: 9px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(22, 19, 23, 0.5);
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+  .galleryShell {
+    padding: 14px;
+    align-items: start;
+    overflow: visible;
+  }
+
+  .gallery {
+    height: auto;
+    min-height: calc(100svh - 28px);
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 18px;
+  }
+
+  .heroFrame {
+    border-radius: 15px;
+  }
+
+  .galleryHeading {
+    top: 31px;
+    left: 28px;
+  }
+
+  .galleryHeading h1 {
+    font-size: 42px;
+  }
+
+  .heroActions {
+    right: 20px;
+    bottom: 22px;
+  }
+
+  .pillButton {
+    display: none;
+  }
+
+  .imageMeta {
+    left: 25px;
+    bottom: 38px;
+  }
+
+  .thumbnailRailTop {
+    padding: 0 4px;
+  }
+
+  .thumbnailRail {
+    position: static;
+    width: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .thumbnailScroll {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 4px 10px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .thumbnail {
+    flex-basis: 96px;
+    min-height: 96px;
+    border-radius: 10px;
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galleryShell *,
+  .galleryShell *::before,
+  .galleryShell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

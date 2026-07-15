@@ -1,0 +1,22 @@
+:root {
+  color-scheme: dark;
+  background: #121113;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background: #121113;
+}
+
+button {
+  font: inherit;
+}
